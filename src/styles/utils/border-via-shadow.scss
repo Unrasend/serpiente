@@ -1,0 +1,16 @@
+@mixin border-via-shadow($width, $color, $inset: true, $important: false) {
+  @if ($important == true) {
+    @if ($inset == true) {
+      box-shadow: 0 0 0 $width $color inset !important;
+    } @else {
+      box-shadow: 0 0 0 $width $color !important;
+    }
+  } @else {
+    @if ($inset == true) {
+      box-shadow: 0 0 0 $width $color inset;
+    } else {
+      box-shadow: 0 0 0 $width $color;
+    }
+  }
+  appearance: none;
+}

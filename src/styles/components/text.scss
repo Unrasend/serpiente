@@ -1,0 +1,40 @@
+@import '../utils/responsive';
+
+.text {
+  font-size: 1rem;
+}
+
+h1, .h1 {
+  font-size: calc(1.6rem);
+  @apply text-active;
+}
+
+h2, .h2 {
+  font-size: calc(1.5rem);
+  @apply text-active;
+}
+
+h3, .h3 {
+  font-size: calc(1.4rem);
+  @apply text-active;
+}
+
+h4, .h4 {
+  font-size: calc(1.3rem);
+  @apply text-active;
+}
+
+h5, .h5 {
+  font-size: calc(1.2rem);
+  @apply text-active;
+}
+
+h6, .h6 {
+  font-size: calc(1.1rem);
+  @apply text-active;
+}
+
+hr {
+  @apply my-md xs:my-sm;
+  border-top: 1px dotted var(--c-active);
+}

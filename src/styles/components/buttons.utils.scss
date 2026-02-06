@@ -1,0 +1,219 @@
+@import '../utils/rem';
+@import '../utils/font';
+@import '../utils/ripple';
+@import '../utils/border-via-shadow';
+@import '../utils/accessible-disable';
+
+// this file is intended to be extended only by button template declarations, not in the actual code of angular components.
+%button-base {
+  @apply
+  flex
+  items-center
+  justify-center
+  border-none
+  text-center
+  no-underline
+  select-none
+  transition-all
+  outline-none
+  cursor-pointer;
+}
+
+%button-reset {
+  @apply
+  outline-none
+  border-none
+  bg-transparent
+  cursor-pointer
+  p-0;
+}
+
+%button-size-m {
+  @extend %button-base;
+  @apply text-sm font-normal;
+
+  min-width: rem(100px);
+  height: rem(36px);
+  padding: rem(9px) rem(12px);
+  border-radius: 2px;
+}
+
+%button-size-l {
+  @extend %button-base;
+  @include font(22px, 500);
+  @apply p-4;
+
+  height: rem(60px);
+  border-radius: 10px;
+}
+
+%button-disabled {
+  @apply disabled:cursor-not-allowed;
+}
+
+%button-auth {
+  @extend %button-disabled;
+  @apply
+  bg-primary-indicator
+  text-text-primary
+  disabled:text-text-primary-disabled
+  disabled:bg-primary-indicator-disabled
+  disabled:opacity-50
+  focus-visible:bg-primary-indicator-hover;
+
+  @include ripple(var(--c-primary-indicator-hover), var(--c-primary-indicator-active));
+
+  &:focus-visible {
+    @apply shadow-outline-primary;
+  }
+}
+
+%button-main {
+  @extend %button-disabled;
+  @apply
+  bg-primary-indicator
+  text-text-primary
+  disabled:text-text-primary-disabled
+  disabled:bg-primary-indicator-disabled
+  disabled:opacity-50
+  focus-visible:bg-primary-indicator-hover;
+
+  @include ripple(var(--c-primary-indicator-hover), var(--c-primary-indicator-active));
+
+  &:focus-visible {
+    @apply shadow-outline-primary;
+  }
+}
+
+%button-main-alt {
+  @extend %button-disabled;
+  @apply
+  bg-standard-indicator
+  text-bg-secondary
+  disabled:text-text-primary-disabled
+  disabled:bg-primary-indicator-disabled
+  disabled:opacity-50
+  focus-visible:bg-primary-indicator-hover;
+
+  @include ripple(var(--c-standard-indicator), var(--c-standard-indicator));
+
+  &:focus-visible {
+    @apply shadow-outline-primary;
+  }
+}
+
+%button-attention {
+  @extend %button-disabled;
+  @apply
+  bg-error-indicator
+  text-bg-secondary
+  disabled:text-text-primary-disabled
+  disabled:opacity-50;
+
+  @include ripple(var(--c-error-indicator), var(--c-error-indicator));
+
+  &:focus-visible {
+    @apply shadow-outline-primary;
+  }
+}
+
+%button-secondary {
+  @extend %button-disabled;
+
+  @apply
+  bg-bg-primary
+  text-text-primary
+  hover:bg-hover-secondary
+  disabled:opacity-75
+  focus-visible:bg-hover-secondary;
+
+  @include ripple(var(--c-hover-secondary), var(--c-active-secondary));
+
+  &:active {
+    @include border-via-shadow(3px, rgba(69, 71, 84, 0.2));
+  }
+
+  &:focus-visible {
+    @apply shadow-outline;
+  }
+}
+
+%button-secondary-light {
+  @apply disabled:cursor-not-allowed disabled:text-text-disabled #{!important};
+
+  @apply
+  shadow-btn
+  bg-bg-secondary
+  text-text-primary
+  disabled:opacity-75
+  hover:bg-hover-secondary
+  focus-visible:bg-hover-secondary;
+
+  @include ripple(var(--c-hover-secondary-light), var(--c-active-secondary-light));
+
+  &:active {
+    @include border-via-shadow(3px, rgba(69, 71, 84, 0.2));
+  }
+
+  &:disabled {
+    @include border-via-shadow(1px, var(--c-divider), true);
+  }
+
+  &:focus-visible {
+    @apply shadow-outline;
+  }
+}
+
+%button-nav-effects {
+  @include ripple(var(--c-nav-sidebar-hover), var(--c-nav-sidebar-active));
+
+  &:focus-visible {
+    outline: 1px inset var(--c-alternative-focus);
+    outline-offset: -1px;
+  }
+}
+
+%button-icon {
+  @extend %button-base;
+  @apply flex justify-center items-center h-xl w-xl box-border rounded-full;
+  @include ripple(var(--c-nav-sidebar-hover), var(--c-nav-sidebar-active));
+
+  &:focus-visible {
+    border: 1px solid rgba(69, 71, 84, 15%);
+  }
+
+  > mat-icon {
+    @apply text-text-primary;
+  }
+}
+
+%button-nav-icon {
+  @extend %button-base;
+  @include ripple(var(--c-nav-sidebar-hover), var(--c-nav-sidebar-active));
+  @apply flex justify-start items-center h-4xl box-border;
+
+  &:focus-visible {
+    outline: 1px inset var(--c-alternative-focus);
+    outline-offset: -1px;
+  }
+
+  > mat-icon {
+    @apply ml-[#{rem(14px)}] mr-[#{rem(14px)}] text-bg-secondary;
+  }
+
+  > span {
+    @apply text-sm text-bg-secondary;
+  }
+
+  &.active {
+    @apply bg-primary-indicator;
+
+    > mat-icon, > span {
+      @apply text-text-primary;
+    }
+  }
+
+  &.disabled {
+    @apply cursor-not-allowed opacity-50 bg-none bg-transparent;
+  }
+}

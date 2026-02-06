@@ -1,0 +1,19 @@
+:root {
+  --c-bg-1: hsl(236, 53%, 6%);
+  --c-bg-1-hsl: 236, 53%, 6%;
+  --c-bg-2: hsl(257, 23%, 16%);
+  --c-bg-2-hsl: 257, 23%, 16%;
+  --c-alert-hsl: 359, 100%, 39%;
+  --c-f-1: hsl(211, 80%, 72%);
+  --c-f-1-hsl: 211, 80%, 72%;
+  --c-f-2: hsl(198, 20%, 75%);
+  --c-interactive: white;
+  --c-active: hsla(120, 70%, 50%);
+  --c-focus: hsl(60, 80%, 50%);
+  --c-hover: hsla(120, 80%, 70%);
+  --c-alert: hsl(359, 100%, 35%);
+  --c-highlight: hsl(273, 100%, 29%);
+  --c-bg-body: #000;
+  --c-scroll-bg: #262626;
+  --c-scroll-thumb: #5e5e5e;
+}

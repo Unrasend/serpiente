@@ -1,0 +1,88 @@
+.host {
+  @apply
+  block
+  h-full
+  w-full
+  relative
+  box-border
+  overflow-hidden;
+
+  border: 2px solid hsla(var(--c-alert-hsl), 0.45);
+  border-radius: 8px;
+  background-image: radial-gradient(hsla(var(--c-bg-2-hsl), .992), hsla(var(--c-bg-1-hsl), .992));
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.noise {
+  @apply
+  absolute
+  pointer-events-none
+  block
+  top-0
+  left-0
+  right-0
+  bottom-0
+  w-full;
+  background-image: url('./assets/images/noise.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+  opacity: .26;
+}
+
+.overlay {
+  @apply pointer-events-none absolute w-full h-full z-10;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0,
+      rgba(0, 0, 0, 0.25) 50%,
+      rgba(0, 0, 0, 0) 100%);
+  background-size: auto .25rem;
+  box-shadow: 0 0 .75rem .15rem rgba(0, 0, 0, 0.75) inset;
+}
+
+.overlay::before {
+  @apply
+  absolute
+  pointer-events-none
+  block
+  top-0
+  left-0
+  right-0
+  bottom-0
+  w-full
+  h-full;
+  content: '';
+  background-image: linear-gradient(
+    0deg,
+    transparent 0%,
+    hsla(var(--c-bg-1-hsl), 0.2) 1%,
+    hsla(var(--c-f-1-hsl), 0.3) 1%,
+    hsla(var(--c-bg-1-hsl), 0.2) 1%,
+    transparent 100%);
+  background-repeat: no-repeat;
+
+  animation-duration: 7.5s;
+  animation-name: scan;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+}
+
+@keyframes scan {
+  0%        { background-position: 0 -100vh; }
+  50%, 100% { background-position: 0 100vh; }
+}
+
+.terminal {
+  @apply
+  relative
+  flex
+  flex-col
+  overflow-auto
+  w-full
+  h-full;
+  scroll-behavior: smooth;
+  scrollbar-color: var(--c-scroll-thumb) var(--c-scroll-bg);
+}

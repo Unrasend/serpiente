@@ -1,0 +1,28 @@
+@import './buttons.utils';
+@import '../utils/rem';
+
+a {
+  @extend %button-reset;
+  @apply
+  transition-all
+  not-italic
+  text-interactive
+  no-underline
+  visited:text-interactive
+  hover:text-hover
+  active:text-active
+  active:no-underline
+  focus-visible:text-hover
+  focus-visible:outline-2
+  focus-visible:no-underline
+  focus-visible:outline-dotted
+  focus-visible:outline-focus;
+}
+
+a::before {
+  content: "[";
+}
+
+a::after {
+  content: "]";
+}

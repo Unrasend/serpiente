@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'styles/components/links';
+@import 'styles/components/text';
+@import 'styles/utils/utils';
+@import 'styles/utils/responsive';
+@import "styles/colors.css";
+@import "styles/font-faces.css";
+
+html, body, #root {
+  @apply h-full;
+}
+
+body {
+  @apply m-0 bg-bg-body p-xs text-f-1;
+
+  font-family: "Droid Sans Mono", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: calc(8px + 0.5vw);
+
+  @media #{$small} {
+    font-size: calc(15px + 0.5vw);
+  }
+}
+
+*,
+*::before,
+*::after {
+  @apply box-border;
+}
+
+::-webkit-scrollbar {
+  @apply bg-scroll-bg w-sm;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0;
+  @apply bg-scroll-thumb;
+}
+
+::-webkit-scrollbar-corner {
+  @apply bg-scroll-bg;
+}

@@ -1,0 +1,14 @@
+@mixin accessible-disable {
+  margin: -1px;
+
+  position: absolute;
+
+  overflow: hidden;
+
+  height: 1px;
+  width: 1px;
+  padding: 0;
+  border: 0;
+
+  clip: rect(0 0 0 0);
+}

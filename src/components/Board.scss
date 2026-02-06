@@ -1,0 +1,23 @@
+
+.game-board {
+  display: grid;
+  grid-gap: 2px;
+  border: 2px solid #333;
+  background-color: #333;
+}
+
+.cell {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  border: 1px solid #111;
+}
+
+.snake-cell {
+  background-color: var(--c-active); 
+}
+
+.food-cell {
+  background-color: var(--c-alert); /* Using var from colors.css if available, or direct HSL */
+  background-color: hsl(var(--c-alert-hsl, 0, 100%, 50%)); /* Fallback to red if var missing */
+}

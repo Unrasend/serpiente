@@ -1,0 +1,22 @@
+$breakpoint-desktop: 1280px;
+$breakpoint-mobile: 768px;
+
+@function from-breakpoint($from) {
+  @return "screen and (min-width: #{$from})";
+}
+
+@function to-breakpoint($to) {
+  @return "screen and (max-width: #{$to})";
+}
+
+@function from-breakpoint-to($from, $to) {
+  @return "screen and (min-width: #{$from}) and (max-width: #{$to})";
+}
+
+$not-small: from-breakpoint($breakpoint-mobile);
+$small: to-breakpoint($breakpoint-mobile - 1px);
+
+$medium: from-breakpoint-to($breakpoint-mobile, $breakpoint-desktop - 1px);
+
+$not-large: to-breakpoint($breakpoint-desktop - 1px);
+$large: from-breakpoint($breakpoint-desktop);

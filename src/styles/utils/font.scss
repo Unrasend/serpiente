@@ -1,0 +1,10 @@
+@import "../utils/rem";
+@import "../utils/importantize";
+
+
+@mixin font($size: 16px, $font-weight: 400, $line-height: $size + 8, $letter-spacing: 0, $important: false) {
+  font-size: importantize(any-to-rem($size), $important);
+  letter-spacing: importantize(any-to-rem($letter-spacing), $important);
+  line-height: importantize(any-to-rem($line-height), $important);
+  font-weight: importantize($font-weight,$important);
+}

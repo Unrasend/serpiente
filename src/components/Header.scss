@@ -1,0 +1,138 @@
+@import '../styles/components/links';
+@import '../styles/utils/responsive';
+
+header {
+  @apply
+  relative
+  flex
+  items-center
+  w-full
+  h-4xl
+  min-h-4xl
+  px-md
+  bg-bg-2
+  justify-between
+  xs:flex-col
+  border-bg-body
+  border-b-2
+  transition-all
+  hover:border-highlight
+  hover:bg-highlight
+  focus-within:bg-highlight
+  focus-within:border-highlight
+  xs:hover:border-bg-body
+  xs:hover:bg-bg-2
+  xs:focus-within:bg-bg-2
+  xs:focus-within:border-bg-body;
+}
+
+nav {
+  @apply
+  flex-1
+  flex
+  items-center
+  justify-center
+  h-full
+  xs:hidden
+  transition-all;
+}
+
+ul {
+  @apply
+  flex
+  items-center
+  -translate-x-1/4
+  h-full
+  xs:h-auto
+  xs:flex-col
+  xs:translate-x-0;
+}
+
+li {
+  @apply h-full mr-xs xs:mb-xl;
+}
+
+.link {
+  @apply
+  flex
+  items-center
+  h-full
+  px-xs
+  mr-2xs
+  rounded-xl
+  transition-all
+  last:mr-0
+  hover:bg-bg-2
+  focus:bg-bg-2;
+
+  &:hover {
+    box-shadow: 0 0 .2rem .1rem rgba(0, 0, 0, .75) inset;
+  }
+}
+
+.burger {
+  @apply
+  hidden
+  xs:block
+  absolute
+  cursor-pointer
+  right-md
+  top-md
+  h-[1.25rem]
+  w-md;
+
+  z-index: 5;
+
+  span {
+    @apply
+    absolute
+    block
+    bg-interactive
+    w-full
+    h-[0.125rem]
+    top-1/2
+    -mt-[0.1rem]
+    left-0
+    transition-all
+    first:top-[0.3rem]
+    last:top-[1rem];
+  }
+}
+
+input:checked + button.burger {
+  span {
+    opacity: 0;
+    top: 50%;
+  }
+  span:first-child {
+    opacity: 1;
+    transform: rotate(405deg);
+  }
+  span:last-child {
+    opacity: 1;
+    transform: rotate(-405deg);
+  }
+}
+
+header:has(input:checked) {
+  @apply
+  absolute
+  top-0
+  left-0
+  flex-col
+  h-full
+  w-full
+  p-sm
+  bg-bg-2
+  transition-all;
+
+  z-index: 1;
+
+  nav {
+    @apply flex;
+  }
+
+  .logo {
+    height: initial;
+  }
+}

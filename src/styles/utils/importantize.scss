@@ -1,0 +1,7 @@
+@function importantize($value, $important) {
+  @if $important == true {
+    @return $value !important;
+  } @else {
+    @return $value;
+  }
+}

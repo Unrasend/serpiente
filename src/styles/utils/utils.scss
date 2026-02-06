@@ -1,0 +1,20 @@
+@import '../utils/rem';
+@import '../utils/border-via-shadow';
+@import '../utils/accessible-disable';
+
+.accessible-disable {
+  @include accessible-disable;
+}
+
+@mixin ucp-grid {
+  @apply grid grid-cols-24 gap-x-md gap-x-md;
+}
+
+.ucp-grid {
+  @include ucp-grid;
+}
+
+.ucp-page-grid {
+  @apply pl-[#{1.875rem}] pr-[#{5rem}] py-lg;
+  @include ucp-grid;
+}
