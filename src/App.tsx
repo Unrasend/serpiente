@@ -9,7 +9,7 @@ function App() {
       <div className="noise"></div>
       <div className="overlay"></div>
       
-      <div className="terminal-wrapper relative w-full h-full overflow-hidden border-2 border-alert/45 rounded-lg bg-cover bg-no-repeat flex flex-col">
+      <div className="relative w-full h-full overflow-hidden rounded-lg bg-cover bg-no-repeat flex flex-col">
         <Header />
         
         <main className="relative z-5 w-full flex-1 overflow-y-auto p-md box-border">
