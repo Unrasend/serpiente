@@ -126,6 +126,10 @@ export const SnakeGame = () => {
       </div>
       
       <Board snakeCells={snake.cells} food={food} />
+
+      <br/>
+
+      <span className='text'>Use arrow keys to move the snake</span>
       
       {status !== GameState.RUNNING && (
         <button
