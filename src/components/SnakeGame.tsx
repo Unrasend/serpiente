@@ -1,84 +1,103 @@
 import { useState, useRef, useEffect } from 'react';
 import { GRID_LENGTH, TICK_RATE_MS, INITIAL_SNAKE, GRID_SIZE } from '../constants/Config';
 import { GameState, Direction } from '../models/Types';
-import { Node } from '../models/Node';
+import { Node as SnakeNode } from '../models/Node';
 import { Snake } from '../models/Snake';
 import { generateTillDifferent } from '../utils/Random';
-import { updateSnake } from '../utils/GameLogic';
+import { calcNewPosition } from '../utils/GameLogic';
 import { Board } from './Board';
 
 const getInitialSnake = (): Snake => {
-  const head = new Node(INITIAL_SNAKE[0]);
+  const head = new SnakeNode(INITIAL_SNAKE[0]);
   let current = head;
   for (let i = 1; i < INITIAL_SNAKE.length; i++) {
-    const newNode = new Node(INITIAL_SNAKE[i]);
+    const newNode = new SnakeNode(INITIAL_SNAKE[i]);
     current.next = newNode;
     current = newNode;
   }
-  return new Snake(head);
+  return new Snake(head, new Set(INITIAL_SNAKE));
+};
+
+const getDirectionFromKey = (key: string): Direction | null => {
+  switch (key) {
+    case 'ArrowDown': return Direction.DOWN;
+    case 'ArrowUp': return Direction.UP;
+    case 'ArrowLeft': return Direction.LEFT;
+    case 'ArrowRight': return Direction.RIGHT;
+    default: return null;
+  }
+};
+
+const isOppositeDirection = (dir1: Direction, dir2: Direction) => {
+  if (dir1 === Direction.UP && dir2 === Direction.DOWN) {
+    return true;
+  }
+  if (dir1 === Direction.DOWN && dir2 === Direction.UP) {
+    return true;
+  }
+  if (dir1 === Direction.LEFT && dir2 === Direction.RIGHT) {
+    return true;
+  }
+  if (dir1 === Direction.RIGHT && dir2 === Direction.LEFT) {
+    return true;
+  }
+  return false;
 };
 
 export const SnakeGame = () => {
-  const [snakeCells, setSnakeCells] = useState<Set<number>>(new Set(INITIAL_SNAKE));
-  const [_, setSnake] = useState<Snake>(getInitialSnake());
+  const [snake, setSnake] = useState<Snake>(getInitialSnake());
   const [food, setFood] = useState<number>(generateTillDifferent(0, GRID_LENGTH - 1, new Set(INITIAL_SNAKE)));
   const [score, setScore] = useState(0);
   const [status, setStatus] = useState<GameState>(GameState.IDLE);
-  
+  const currentDirection = useRef<Direction>(Direction.DOWN);
   const directionRef = useRef<Direction>(Direction.DOWN);
   
   useEffect(() => {
     if (status !== GameState.RUNNING) return;
     
     const handleInput = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'ArrowDown':
-          if (directionRef.current === Direction.UP) break;
-          directionRef.current = Direction.DOWN;
-          break;
-        case 'ArrowUp':
-          if (directionRef.current === Direction.DOWN) break;
-          directionRef.current = Direction.UP;
-          break;
-        case 'ArrowLeft':
-          if (directionRef.current === Direction.RIGHT) break;
-          directionRef.current = Direction.LEFT;
-          break;
-        case 'ArrowRight':
-          if (directionRef.current === Direction.LEFT) break;
-          directionRef.current = Direction.RIGHT;
-          break;
-        default:
-          return;
+      const newDirection = getDirectionFromKey(e.key);
+      if (!newDirection) {
+        return;
+      }
+
+      if (!isOppositeDirection(newDirection, currentDirection.current) && newDirection !== currentDirection.current) {
+        directionRef.current = newDirection;
       }
     };
     
     const runGameLoop = () => {
       setSnake(currentSnake => {
-        const [newSnake, cells, lastCell] = updateSnake(currentSnake, directionRef.current);
-
-        const newPosition = newSnake.head.value;
         const currentPosition = currentSnake.head.value;
-
-        if (newPosition > GRID_LENGTH || newPosition < 0) {
-          setStatus(GameState.GAME_OVER);
-          return currentSnake;
-        }
-
-        if (currentPosition < newPosition ? new Array(GRID_SIZE).fill(0).some((_, i) => newPosition === (i + 1) * GRID_SIZE) : new Array(GRID_SIZE).fill(0).some((_, i) => currentPosition === i * GRID_SIZE)) {
-          setStatus(GameState.GAME_OVER);
-          return currentSnake;
-        }
-
-        if (newSnake.head.value === food) {
-          setScore(s => s + 1);
-          newSnake.increase(lastCell);
-          cells.add(lastCell);
-          setFood(generateTillDifferent(0, GRID_LENGTH - 1, cells));
-        }
-          
-        setSnakeCells(cells);
+        const isFood = calcNewPosition(currentPosition, directionRef.current) === food; 
+        const newSnake = currentSnake.move(directionRef.current, isFood);
+        const nextHeadPos = newSnake.head.value;
         
+        if (nextHeadPos > GRID_LENGTH || nextHeadPos < 0) {
+          setStatus(GameState.GAME_OVER);
+          return currentSnake;
+        }
+
+        if (currentPosition < nextHeadPos 
+            ? new Array(GRID_SIZE).fill(0).some((_, i) => nextHeadPos === (i + 1) * GRID_SIZE) 
+            : new Array(GRID_SIZE).fill(0).some((_, i) => currentPosition === i * GRID_SIZE)
+        ) {
+          setStatus(GameState.GAME_OVER);
+          return currentSnake;
+        }
+
+        if (currentSnake.cells.has(newSnake.head.value)) {
+           setStatus(GameState.GAME_OVER);
+           return currentSnake;
+        }
+
+        if (isFood) {
+          setScore(s => s + 1);
+          setFood(generateTillDifferent(0, GRID_LENGTH - 1, newSnake.cells));
+        }
+
+        currentDirection.current = directionRef.current;
+          
         return newSnake;
       });
     };
@@ -96,7 +115,7 @@ export const SnakeGame = () => {
     setStatus(GameState.RUNNING);
     setScore(0);
     setSnake(getInitialSnake());
-    setSnakeCells(new Set(INITIAL_SNAKE));
+    currentDirection.current = Direction.DOWN;
     directionRef.current = Direction.DOWN;
   };
   
@@ -106,7 +125,7 @@ export const SnakeGame = () => {
         Score: {score}
       </div>
       
-      <Board snakeCells={snakeCells} food={food} />
+      <Board snakeCells={snake.cells} food={food} />
       
       {status !== GameState.RUNNING && (
         <button
